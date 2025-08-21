@@ -35,14 +35,14 @@ done
 
 # Wait for backend to be ready
 echo "🔍 Checking backend health..."
-until curl -f http://localhost:3000/health > /dev/null 2>&1; do
+until curl -f http://localhost:3001/health > /dev/null 2>&1; do
     echo "⏳ Waiting for backend..."
     sleep 2
 done
 
 # Wait for frontend to be ready
 echo "🔍 Checking frontend health..."
-until curl -f http://localhost:5173 > /dev/null 2>&1; do
+until curl -f http://localhost:8080 > /dev/null 2>&1; do
     echo "⏳ Waiting for frontend..."
     sleep 2
 done
@@ -51,12 +51,12 @@ echo ""
 echo "✅ All services are running!"
 echo ""
 echo "🌐 Access your application:"
-echo "   Frontend: http://localhost:5173"
-echo "   Backend API: http://localhost:3000"
+echo "   Frontend: http://localhost:8080"
+echo "   Backend API: http://localhost:3001"
 echo "   Database: localhost:5432"
 echo ""
 echo "📊 Test the API:"
-echo "   curl http://localhost:3000/users"
+echo "   curl http://localhost:3001/users"
 echo ""
 echo "🛑 To stop the services:"
 echo "   docker-compose down"

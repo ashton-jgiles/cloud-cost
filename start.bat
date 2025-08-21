@@ -39,7 +39,7 @@ if errorlevel 1 (
 REM Wait for backend to be ready
 echo 🔍 Checking backend health...
 :wait_backend
-curl -f http://localhost:3000/health >nul 2>&1
+curl -f http://localhost:3001/health >nul 2>&1
 if errorlevel 1 (
     echo ⏳ Waiting for backend...
     timeout /t 2 /nobreak >nul
@@ -49,7 +49,7 @@ if errorlevel 1 (
 REM Wait for frontend to be ready
 echo 🔍 Checking frontend health...
 :wait_frontend
-curl -f http://localhost:5173 >nul 2>&1
+curl -f http://localhost:8080 >nul 2>&1
 if errorlevel 1 (
     echo ⏳ Waiting for frontend...
     timeout /t 2 /nobreak >nul
@@ -60,12 +60,12 @@ echo.
 echo ✅ All services are running!
 echo.
 echo 🌐 Access your application:
-echo    Frontend: http://localhost:5173
-echo    Backend API: http://localhost:3000
+echo    Frontend: http://localhost:8080
+echo    Backend API: http://localhost:3001
 echo    Database: localhost:5432
 echo.
 echo 📊 Test the API:
-echo    curl http://localhost:3000/users
+echo    curl http://localhost:3001/users
 echo.
 echo 🛑 To stop the services:
 echo    docker-compose down
