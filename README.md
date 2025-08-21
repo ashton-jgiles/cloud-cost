@@ -192,5 +192,3 @@ The database is pre-populated with sample users:
 ## 📝 License
 
 This project is part of a demonstration portfolio. Please refer to individual component licenses for specific terms.
-
-test to push to github without internet
