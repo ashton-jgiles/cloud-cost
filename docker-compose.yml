@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: cloud-cost-db
+    environment:
+      POSTGRES_DB: cloud-cost-db
+      POSTGRES_USER: cloud-user
+      POSTGRES_PASSWORD: cloud-dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - cloud-cost-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cloud_cost_user -d cloud_cost_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API (NestJS)
+  backend:
+    build:
+      context: ../cloud-cost-api
+      dockerfile: Dockerfile
+    container_name: cloud-cost-api
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_USER=cloud-user
+      - DATABASE_PASS=cloud-dev
+      - DATABASE_NAME=cloud-cost-db
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - cloud-cost-network
+    restart: unless-stopped
+
+  # Frontend (React + Vite)
+  frontend:
+    build:
+      context: ../cloud-cost-site
+      dockerfile: Dockerfile
+    container_name: cloud-cost-frontend
+    environment:
+      - VITE_API_URL=http://localhost:3000
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - cloud-cost-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  cloud-cost-network:
+    driver: bridge
