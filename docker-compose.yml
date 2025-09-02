@@ -43,12 +43,6 @@ services:
     networks:
       - cloud-cost-network
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
 
   frontend:
     build:
@@ -63,8 +57,7 @@ services:
       - ../cloud-cost-site:/app
       - /app/node_modules
     depends_on:
-      backend:
-        condition: service_healthy
+      - backend
     networks:
       - cloud-cost-network
     restart: unless-stopped
