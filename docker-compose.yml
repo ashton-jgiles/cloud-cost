@@ -22,7 +22,7 @@ services:
   backend:
     build:
       context: ../cloud-cost-api
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     container_name: cloud-cost-api
     environment:
       NODE_ENV: ${NODE_ENV}
@@ -47,7 +47,7 @@ services:
   frontend:
     build:
       context: ../cloud-cost-site
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     container_name: cloud-cost-frontend
     environment:
       VITE_API_URL: ${VITE_API_URL}
