@@ -33,7 +33,7 @@ services:
       DATABASE_PASS: ${POSTGRES_PASSWORD}
       DATABASE_NAME: ${POSTGRES_DB}
     ports:
-      - "${BACKEND_PORT}:3000"
+      - "${BACKEND_PORT}:3001"
     volumes:
       - ../cloud-cost-api:/app
       - /app/node_modules
